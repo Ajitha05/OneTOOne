@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class Adapterview extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class Adapterview extends RecyclerView.Adapter<Adapterview.ViewHolder> {
     List<Customer> customerList;
 
 
@@ -24,7 +24,7 @@ public class Adapterview extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Adapterview.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater= LayoutInflater.from(parent.getContext());
         View listItem = layoutInflater.inflate(R.layout.item_row,parent,false);
         ViewHolder viewHolder=new ViewHolder(listItem);
@@ -33,22 +33,42 @@ public class Adapterview extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Adapterview.ViewHolder holder, int position) {
         final Customer user = customerList.get(position);
+        holder.getName().setText(user.getName().trim());
+        holder.getId().setText(String.valueOf(user.getId()));
 
 
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
 
+                Toast.makeText(view.getContext(), user.getName(), Toast.LENGTH_SHORT).show();
 
+                Intent i = new Intent(view.getContext(),OrderList.class);
 
+                List<Order> orders = user.getOrders();
 
+                if (!orders.isEmpty()) {
+                    Order order = orders.get(0);
+                    i.putExtra("order_id", order.getId());
+                    i.putExtra("customer_id", order.getCustomerId());
+                    i.putExtra("details", order.getDetails());
+                }
 
-
-
+                view.getContext().startActivity(i);
 
 
 
 
             }
+
+        });
+
+
+
+
+    }
 
 
 

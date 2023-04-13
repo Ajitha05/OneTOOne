@@ -16,8 +16,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Button btn;
-    CustomerDao customerDao;
-    List<Customer> customerList;
+     List<Customer> customerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
